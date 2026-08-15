@@ -1,0 +1,80 @@
+<div>Teachable Machine Image Model</div>
+<button type="button" onclick="init()">Carregar Modelo</button>
+<input type="file" id="image-upload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+<button type="button" onclick="document.getElementById('image-upload').click()" id="upload-btn" style="display: none;">Selecionar Imagem</button>
+<div id="image-container"></div>
+<div id="label-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+<script type="text/javascript">
+    // More API functions here:
+    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+    // the link to your model provided by Teachable Machine export panel
+    const URL = "./tm-my-image-model/";
+
+    let model, labelContainer, maxPredictions;
+
+    // Load the image model
+    async function init() {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+
+        try {
+            // load the model and metadata
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            // Show upload button after model loads
+            document.getElementById("upload-btn").style.display = "inline-block";
+            document.getElementById("label-container").innerHTML = "Modelo carregado com sucesso! Selecione uma imagem.";
+            
+            // Setup label container
+            labelContainer = document.getElementById("label-container");
+            labelContainer.innerHTML = "";
+            for (let i = 0; i < maxPredictions; i++) {
+                labelContainer.appendChild(document.createElement("div"));
+            }
+        } catch (error) {
+            console.error("Erro ao carregar modelo:", error);
+            alert("Erro ao carregar modelo: " + error.message + "\n\nVerifique se está acessando via http://localhost:8000 e não via file://");
+        }
+    }
+
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                // Display the uploaded image
+                const container = document.getElementById("image-container");
+                container.innerHTML = "";
+                container.appendChild(img);
+                
+                // Run prediction
+                predict(img);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // run the image through the image model
+    async function predict(imgElement) {
+        if (!model) {
+            alert("Por favor, carregue o modelo primeiro clicando em 'Carregar Modelo'");
+            return;
+        }
+        
+        // predict can take in an image, video or canvas html element
+        const prediction = await model.predict(imgElement);
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction =
+                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            labelContainer.childNodes[i].innerHTML = classPrediction;
+        }
+    }
+</script>
