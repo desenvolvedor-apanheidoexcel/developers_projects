@@ -7,3 +7,8 @@ Em seguida o treinamento gerou os pesos que foram utilizados num projeto JavaScr
 Para testar as inferências pode-se usar os modelos de testes do próprio Dataset que contem novas imagens de dígitos com mais ruídos.
 
 Para maiores instruções, leia o Instrucoes.md disponível no projeto.
+
+Kaggle(dataset): https://www.kaggle.com/datasets/devapanheidoexcel/digits-lotofacil-bilhete
+Vídeo demonstração rápida: https://youtu.be/nU86au4l-0k
+
+
