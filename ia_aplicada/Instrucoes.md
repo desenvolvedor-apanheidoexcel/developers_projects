@@ -12,7 +12,7 @@ Since browsers block local file access via `file://` protocol (CORS policy), you
 ```bash
 cd "...pastaDoProjeto"
 python -m http.server 8000
-# Then open http://localhost:8000/script_numbers_lotofacil.html
+# Then open http://localhost:8000/script_numbers_lotofacil_pick_image.html
 ```
 
 Or use the file picker option by uncommenting the Option 2 code and commenting Option 1.
