@@ -1,4 +1,7 @@
 # Projeto Dígitos Lotofácil
+
+![Bilhete Lotofácil Original](bilhetelotofaciloriginal.jpg)
+
 Este projeto utiliza um DataSet de dígitos de bilhetes da Lotofácil para treinamento e inferência de modelos de IA.
 Os dígitos compreendem os números de 01 a 25, digitalizados e tratados para incluir ruídos diversos nas imagens para aperfeiçoar o treinamento.
 
